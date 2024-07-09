@@ -428,4 +428,11 @@ class clsPerson
     // Composition تعمل ابجكت لكلاس داخل كلاس اخر
 
     // Sealed Class عمل قفل للكلاس ماتقدر تورث منة
+
+    // Partial class جز من كلاس الكمبايلر يدمج الثنان منهPartial Methods لاتستخدم الا في كلاس بارشل
+
+    // Polymorphism تعدد الاشكال 1- الاوفر لودنق 
+
+    // class library
+    //namespace مجموعه فيها عدة كلاسات
 }
