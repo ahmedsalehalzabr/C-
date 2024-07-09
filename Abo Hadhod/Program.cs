@@ -22,6 +22,13 @@ class clsPerson
     {
         static void Main(string[] args)
         {
+
+            Console.WriteLine(Setting.DayNumber);
+            Console.WriteLine(Setting.DayName );
+            Setting.Project = "ahmedahmed";
+            Console.WriteLine(Setting.Project);
+
+
             clsEmployee employee = new clsEmployee();
             employee.ID = 1;
             employee.Name = "Ahmed Alzabr";
@@ -153,9 +160,11 @@ class clsPerson
 
     class clsEmployee
     {
+        //filed
         private int _ID;
         private string _Name = string.Empty;
 
+        //properties
         public int ID
         {
             get
@@ -183,5 +192,39 @@ class clsPerson
         }
     }
 
+
+    static class Setting
+    {
+        public static int DayNumber
+        {
+            get
+            {
+                return DateTime.Today.Day;
+            }
+        }
+        public static string DayName
+        {
+            get
+            {
+                return DateTime.Today.DayOfWeek.ToString();
+            }
+        }
+        public static string Project { get; set; }
+    }
   
+
+    class clsPersons
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public clsPersons()
+        {
+            Id = -1;
+            Name = "Empty";
+            Age = 0;
+        }
+
+    }
 }
