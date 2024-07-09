@@ -215,6 +215,8 @@ class clsPerson
 
     class clsPersons
     {
+
+        // 1- Parameterless Constructor
         public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
@@ -225,6 +227,205 @@ class clsPerson
             Name = "Empty";
             Age = 0;
         }
+        // opject => clsPersons cls = new clsPersons();
+    }
+
+    class clsPerson2
+    {
+
+        //4- Multiple Constructors
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public clsPerson2()
+        {
+            this.Id = -1;
+            this.Name = "Empty";
+            this.Age = 0;
+        }
+
+        public clsPerson2(int Id, string Name, short Age)
+        {
+            this.Id = Id;
+            this.Name = Name;
+            this.Age = Age;
+        }
+    }
+
+    class clsPersons2
+    {
+
+        // 2- Parameterized Constructor
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public clsPersons2(int Id , string Name , int Age)
+        {
+            this.Id = Id;
+            this.Name = Name;
+            this.Age = Age;
+        } 
 
     }
+    // opject => clsPersons2 cls = new clsPersons2(10,"Ahmed",28);
+
+    // 3- Default Constructor في كلاس موجود غير ظاهر وبدون برميتر
+    class clsPersons3
+    {
+
+        // 5- Static Constructor
+        //بدون براميتر عى مستوى الكلاس فقط 
+        static clsPersons3()
+        {
+
+        }
+
+    }
+
+
+    // لا ناخذ ابجكت من الكلاس الي محتواه ستاتك لان الي شي استاتك يعتبر شرد ناخذة باسم الكلاس فقط
+
+    // private constructor or static class  يمنعنا من اخذ ابجكت من الكلاس
+
+    // function overloading فانكشن بنفس الاسم باختلاف البيانات والبراميتر
+
+    // Destructor هدم او الغاء الابجكت
+
+
+
+    // inhertence
+
+    class Ahmed
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+      public  Ahmed(int Id , string Name , int Age )
+        {
+           this.Id= Id;
+            this.Name = Name;
+            this.Age = Age;
+        }
+    }
+
+    class Saleh : Ahmed
+    {
+        public int Salary { get; set; }
+        public string job { get; set; }
+
+      public  Saleh (int Id , string Name, int Age, int Salary, string job ) : base( Id , Name , Age )
+        {
+            this.Salary = Salary;
+            this.job = job;
+           
+
+        }
+    }
+
+
+    // Method override  Inheritance + Base Keyword
+    // في البيس كلاس تكون فرشول وفي تشايلد كلاس تكون اوفررايد
+    //يتم طباعت الي تم التعديل عليها 
+
+    public class B1
+    {
+        public virtual void Part()
+        {
+            Console.WriteLine("hi");
+
+        }
+        public virtual void Part2()
+        {
+            Console.WriteLine("hi");
+
+        }
+    }
+
+   public class B2 : B1
+    {
+        //تم الغا الي فوق
+        public override void Part()
+        {
+            base.Part();
+            Console.WriteLine("hi beb");
+        }
+
+      //  Method Hiding
+        public new void Part2()
+        {
+
+        }
+    }
+
+
+    // Abstract Class & Methods الكلاس يكون للتوريث ماينفع اخذ منة ابجكت
+
+    // ال implemention تكون بين كلاس وانترفيس 
+
+
+
+    // Implementing Multiple Interfaces
+    // الانتر فيس مثل العقد يلزمك تكنب كل الي موجود فيه 
+
+    public interface IAhmed
+    {
+        public int Age { get; set; }
+        public string Name { get; set; }
+
+        public void Game();
+
+
+    }
+    public interface IAli
+    {
+        public string job { get; set; }
+        public void Job();
+    }
+
+    public class Zabr : IAhmed, IAli
+    {
+        public int Age { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Name { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string job { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public void Game()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Job()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // Nested class كلاس داخله كلاس
+
+    public class A1
+    {
+        public string job { get; set; }
+        public A1(string job)
+        {
+            this.job = job;
+        }
+
+        public class A2
+        {
+            public int salary { get; set; }
+
+            public A2(int salary)
+            {
+                this.salary = salary;
+            }
+        }
+    }
+    // الابجكت => A1.A2 inner = new A1.A2();
+
+
+    // Composition تعمل ابجكت لكلاس داخل كلاس اخر
+
+    // Sealed Class عمل قفل للكلاس ماتقدر تورث منة
 }
