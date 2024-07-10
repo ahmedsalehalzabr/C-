@@ -24,7 +24,7 @@
 //        {
 
 
-            
+
 //            Console.WriteLine(Setting.DayNumber);
 //            Console.WriteLine(Setting.DayName);
 //            Setting.Project = "ahmedahmed";
@@ -70,7 +70,7 @@
 //            //all public members are accessable and internal 
 //            Console.WriteLine("All public members are accessable");
 //            Console.WriteLine("x1={0}", A.x1);
-//            Console.WriteLine("result of fun1={0}", A.fun10());
+//            Console.WriteLine("result of fun1={0}", A.fun1());
 
 //            //you cannot access private members in the folling line.
 //            //Console.WriteLine("x2={0}", A.x2);
@@ -87,7 +87,7 @@
 //            clsB B = new clsB();
 //            Console.WriteLine("\nObjects from class B expose all public members from the base class");
 //            Console.WriteLine("x1={0}", B.x1);
-//            Console.WriteLine("result of fun1={0}", B.fun4());
+//            Console.WriteLine("result of fun1={0}", B.fun1());
 
 //            //you cannot access private members in the folling line.
 //            //Console.WriteLine("x2={0}", B.x2);
