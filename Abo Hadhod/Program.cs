@@ -23,6 +23,8 @@ class clsPerson
         static void Main(string[] args)
         {
 
+
+
             Console.WriteLine(Setting.DayNumber);
             Console.WriteLine(Setting.DayName );
             Setting.Project = "ahmedahmed";
@@ -435,4 +437,51 @@ class clsPerson
 
     // class library
     //namespace مجموعه فيها عدة كلاسات
+
+
+    // Delegate
+
+
+
+
+
+    /// DDD domain driven design
+    /// يعمل على ازالة التعقيدات ويعمل على تحسين التواصل بينك وبين الناس بتوع البزنز 
+    /// تزيل التعقيدات ومصممه للبرامج الكبيره
+    /// يسهل العمل ك تيم
+    /// معنا الدومين توجيه السفت وير تبعي كيف يمشي 
+    /// فايدته يقسم المشروع الى مديولات وتكون فاهم الدومين والكور تبعة وتكون عارف متى اتخلص 
+    /// زيادة المرونة والقدرة على التكيف
+
+    /// DDD phases => 
+
+    /// 1-Tactical 
+    /// value objects
+    /// entities
+    /// aggregates
+    /// domain services 
+    /// domain events
+    /// repositories
+    /// CQRS
+
+    /// 2- Strategic
+    /// -subdomains في problem space
+    //////Sub domain دومين يتقسم الى عدة دومينات
+    //////Categories Subdomain
+    //////1-core Domain وكل سب يكن يتجزاء
+    //////2- Supporting Domain هذا يخدم الكور مثل النتفكايشن سستيم
+    //////3- Generic Domain => solved problem مشكله محلوله
+
+    /// -bounded contexts في problem solution
+    ////// سياق محدد, تحل به مشكله التواصل او الشغل مع الفريق
+
+    /// -ubiquitous language اللغة المشتركه في problem solution
+    ////// جسر للتواصل بين فريق البزنس والتقنيين تقلل سوء الفهم تحسن التواصل توجيه التصميم
+    /// context maps
+    /// shared kernel
+    /// anticorruption layer
+    /// up and dpwn streams
+    /// 
+
+
 }
