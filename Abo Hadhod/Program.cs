@@ -1,31 +1,69 @@
-﻿// Event  هو اشعار تنبيه عشان انبهم ان في حاجه مهمه حصلت
-// الايفنت ما يرجع داتا
-// علامة البرق تعني انه ايفنت event وعلامة السهم نحو الاسفل يعني اكستنشن ميذد extension methode 
-// الايفنت مرتبط بالدلقت
-
-public class Program // يقال عنها سبسكرابير
+﻿// Multithreading
+// thread بياخذ دلقيت وهي الخذ برميتر واحد نوعة ابجكت او ماتاخذ ولا حاجه
+// الثرتز لا تتنفذ مع بعض ولكن عملية السوتشنك تسبب الدتداخل
+public class Program 
 {
-
+   
 
     static void Main(string[] args)
     {
-        List<Employee> employees = new();
-        for (var i = 0; i < 10; i++)
+        var th1 = new Thread(ProcessBatch1);
+        th1.Priority = ThreadPriority.Highest;
+        var th2 = new Thread(ProcessBatch2);
+        th2.Priority = ThreadPriority.Lowest;
+        
+        th1.Start();
+        th2.Start();
+
+
+
+        //List<Employee> employees = new();
+        //for (var i = 0; i < 10; i++)
+        //{
+        //    employees.Add(new Employee
+        //    {
+        //        Name = $"Employee {i}",
+        //        BasicSalary = Random.Shared.Next(1000, 5001),
+        //        Deduction = Random.Shared.Next(0, 501),
+        //        Bonus = Random.Shared.Next(0, 1001)
+        //    });
+        //}
+        //var calculator = new SalaryCalculate();
+        //calculator.EmployeeSalaryCalculated += LogEmployeeSalary; // مالتي كاست دبقت
+        //calculator.EmployeeSalaryCalculated += (employees, salary) => Console.WriteLine($"Payslip`{employees.Name}`");
+
+        //calculator.CalculatwSalaries(employees, e => e.BasicSalary >= 2000);
+
+    }
+
+    private static object _lock = new();
+    private static void ProcessBatch1()
+    {
+        for(var i = 0; i <= 100; i++)
         {
-            employees.Add(new Employee
+            // lock عملها تحط قفل على الكود الي داخلها
+
+            lock (_lock)
             {
-                Name = $"Employee {i}",
-                BasicSalary = Random.Shared.Next(1000, 5001),
-                Deduction = Random.Shared.Next(0, 501),
-                Bonus = Random.Shared.Next(0, 1001)
-            });
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(i);
+                Console.ForegroundColor = ConsoleColor.White;
+
+            }
         }
-        var calculator = new SalaryCalculate();
-        calculator.EmployeeSalaryCalculated += LogEmployeeSalary; // مالتي كاست دبقت
-        calculator.EmployeeSalaryCalculated += (employees, salary) => Console.WriteLine($"Payslip`{employees.Name}`");
+    }
+    private static void ProcessBatch2()
+    {
+        for (var i = 101; i <= 200; i++)
+        {
+            lock (_lock)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(i);
+                Console.ForegroundColor = ConsoleColor.White;
 
-        calculator.CalculatwSalaries(employees, e => e.BasicSalary >= 2000);
-
+            }
+        }
     }
 
     private static void LogEmployeeSalary(Employee employee, int salary)
