@@ -1,66 +1,64 @@
-﻿// Generics معناها نوع عام داخل < >
-// يساعدني في اني احقق مبدا الريوزبلتي وتقلل الكود وتسهله
-
-using System.Collections;
-using System.Numerics;
+﻿
+//LINQ//LINQ فايدتها تنفيذ مؤجل
+// الكويري تتنفذ لما تعمل عليها لوب
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class Program 
 {
-   
+    /* 
+     * projection and Filtering (select , where , Oftype )
+     * Sorting (OrderBy, OrderByDescending, ThenBy, ThenByDescending, Reverse)
+     * Quantifiers (All,Any, Contains)
+     * Partitioning (Skip, SkipWhile, Take, TakeWhile, Chunk)
+     * Set Operations (Distinct, DistinctBy, Except. exeptBy, Intersect, IntersectBy, Union, UnionBy)
+     * Joins (Join, GroupJoen)
+     * Grouping (GroupBy, ToLookup)
+     */
+
 
     static async Task Main(string[] args)
     {
-        // من الابجكت خذ ضيف فيه اي نوع من البيانات 
-        //var arrayList = new ArrayList();
-        //arrayList.Add(true);
-        //arrayList.Add(1);
-        //arrayList.Add(2.5);
-        //arrayList.Add("test");
-        //arrayList.Add(DateTime.Now);
-        //arrayList.Add(new Employee());
-
-        //var genList = new List<int>();
-        //genList.Add(1);
-
-        //var genList2 = new List<bool>();
-        //genList2.Add(true);
-        Console.WriteLine(Add(5, 9));
-        Console.WriteLine(Add(5.5, 10));
-        Console.WriteLine(Add(4, -15));
-
-        var list = new GenericList<int>();
-        list.Add(1);
-        list.Add(2);
-        list.Add(3);
-        list.Add(4);
-        list.Remove(4);
-        var count = list.Count;
-
-        Console.WriteLine(count);
-        
-    }
-
-    // لكي يقبل T  بالارقام نعمل where T : INumber<T>
-    public static T Add<T>(T num1, T num2) where T : INumber<T>
-    {
-        return num1 + num2;
-    }
-    public static int Add(int num1, int num2) => num2 + num1;
-    public static double Add(double num1, double num2) => num1 + num2;
-    public static decimal Add(decimal num1, decimal num2) => num1 + num2;
+        var numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+        //اسم الطريقه كويري اكسبريسن 
+        var result = from number in numbers where number >5 select number;
+        // اسمها method syntax
+        result = numbers.Where(x => x > 8);
+        // ميديت اكسكيوشن
+        //var result = (from number in numbers where number > 5 select number).ToList();
+        foreach ( var number in result)
+        {
+            Console.WriteLine( number );
+        }
+        Console.WriteLine("-------------------------");
+        numbers.AddRange(new int[] { 13, 14, 15 }); // or with list   numbers.AddRange(new List<int> { 13, 14, 15 });
+        foreach ( var number in result)
+        {
+            Console.WriteLine(number);
+        }
+      
 
 
-    // <T> علي الكلاس نكتب اي رمز ولما ناخذ انستانس منه نعمل نوع الداتا تايب
-   public class GenericList<T>
-    {
-        private readonly List<T> _items = new();
 
-        public void Add(T item) { _items.Add(item);}
-        public void Remove(T item) { _items.Remove(item);}
-
-        public int Count => _items.Count;
+        //int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+        //var result = from number in numbers where number > 5 select number;
+        //foreach (var number in result)
+        //{
+        //    Console.WriteLine(number);
+        //}
+        // نفس العمل باستخدام LINQ
+        //var result = new List<int>();
+        //foreach (var number in numbers)
+        //{
+        //    if(number > 5)
+        //    {
+        //        result.Add(number);
+        //        Console.WriteLine(number);
+        //    }
+        //}
 
     }
+
+ 
 }
 
 
