@@ -1,76 +1,55 @@
-﻿//Task-Based Asynchronous Pattern (TAP)
-// sonchronous معناها بلوكنق 
-// ينفذ الصدر الاولاني ويحصل بلوك اي يستنى الصدر الاول لما يخلص وينتقل للصدر الي بهده
+﻿// Enumerables ابجكت قابل للعد اقدر اعمل عليه لوب اي حاجه بتقدر تعمل عليه لوب  مثال الاري
+// throw يستخدم لرمي استثناء اكسبشن عند حدوث خطا او حاله غير متوقعه
+//عمله يوقف تنفيذ الداله يتم استخدامه لرمي استثناء من نوع name هو null
 
-// Asonchronous نن بلوكنق
-// ينفض الصدر الاول وينفذ الصدر الثاني وميستناش تنفيذه يتفذ براحته ينتقل ينفذ الصدر الذي بعدة
+//IEnumerator عداد يراقب الطريق مثل اللست لما توصل لنهايتها
 
-//task ابريشن بتنفذ ابريشن اسنكرونس
-//فايدته ان في حاجه شغاله في الباكقراوند وانت مش شاعل نفسك بيها ووقت ماتخلص تخلص
 
-// await استنا التسك لما يخلص
 
-// async ماترجعش حاجه زي الفويد اذا كانت async Task فقط اما اذا كانت async Task<int> ضروري ترجع
+
+
 public class Program 
 {
    
 
     static async Task Main(string[] args)
     {
-        var cts = new CancellationTokenSource();
-        var task1 =  ProcessBatch1(cts.Token);
-        var task2 = ProcessBatch2(cts.Token);
-        // هذه معناها انتظر كل التاسكات تخلصت ثم نفذ الي بعدهم
-       await Task.WhenAll(task1, task2);
-
-        Console.WriteLine("Please enter yor name");
-        var name =Console.ReadLine();
-        Console.WriteLine($"Your name is {name}");
-        Console.ReadKey();
-
+      var employee = new Employee();
+        employee.AddPayItem("Bisic salary", 1000);
+        employee.AddPayItem("Housing", 500);
+        employee.AddPayItem("Transportation", 200);
+        employee.AddPayItem("Insurance", -300);
+        
+        foreach (var payItem in employee)
+            Console.WriteLine($"{payItem.Name} = {payItem.Value}");
     }
 
-    private static object _lock = new();
-    private static async Task ProcessBatch1(CancellationToken cancellationToken)
-    {
-       
-        for(var i = 1; i <= 100; i++)
-        {
-            if(cancellationToken.IsCancellationRequested)
-                return;
-            // lock عملها تحط قفل على الكود الي داخلها
-            await Task.Delay(500);
-
-            lock (_lock)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(i);
-                Console.ForegroundColor = ConsoleColor.White;
-
-            }
-        }
-        return;
-    }
-    private static async Task ProcessBatch2(CancellationToken cancellationToken)
-    {
-
-        for (var i = 101; i <= 200; i++)
-        {
-            if (cancellationToken.IsCancellationRequested)
-                return;
-            // lock عملها تحط قفل على الكود الي داخلها
-            await Task.Delay(500);
-            lock (_lock)
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(i);
-                Console.ForegroundColor = ConsoleColor.White;
-
-            }
-        }
-        return;
-    }
-
-
+   
 }
+
+public class Employee
+{
+    private readonly List<PayItem> _payItems = new();
+
+    public string Name { get; set; }
+
+    public void AddPayItem(string name , int value)
+    {
+        if (string.IsNullOrEmpty(name)) 
+            throw new ArgumentNullException("name");
+        _payItems.Add(new PayItem {  Name = name, Value = value });
+    }
+
+    public IEnumerator<PayItem> GetEnumerator()
+    {
+        return _payItems.GetEnumerator();
+    }
+}
+
+public class PayItem
+{
+    public string Name { set; get; }
+    public int Value { set; get; }
+}
+
 
