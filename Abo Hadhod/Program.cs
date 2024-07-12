@@ -1,12 +1,8 @@
-﻿// Enumerables ابجكت قابل للعد اقدر اعمل عليه لوب اي حاجه بتقدر تعمل عليه لوب  مثال الاري
-// throw يستخدم لرمي استثناء اكسبشن عند حدوث خطا او حاله غير متوقعه
-//عمله يوقف تنفيذ الداله يتم استخدامه لرمي استثناء من نوع name هو null
+﻿// Generics معناها نوع عام داخل < >
+// يساعدني في اني احقق مبدا الريوزبلتي وتقلل الكود وتسهله
 
-//IEnumerator عداد يراقب الطريق مثل اللست لما توصل لنهايتها
-
-
-
-
+using System.Collections;
+using System.Numerics;
 
 public class Program 
 {
@@ -14,42 +10,59 @@ public class Program
 
     static async Task Main(string[] args)
     {
-      var employee = new Employee();
-        employee.AddPayItem("Bisic salary", 1000);
-        employee.AddPayItem("Housing", 500);
-        employee.AddPayItem("Transportation", 200);
-        employee.AddPayItem("Insurance", -300);
+        // من الابجكت خذ ضيف فيه اي نوع من البيانات 
+        //var arrayList = new ArrayList();
+        //arrayList.Add(true);
+        //arrayList.Add(1);
+        //arrayList.Add(2.5);
+        //arrayList.Add("test");
+        //arrayList.Add(DateTime.Now);
+        //arrayList.Add(new Employee());
+
+        //var genList = new List<int>();
+        //genList.Add(1);
+
+        //var genList2 = new List<bool>();
+        //genList2.Add(true);
+        Console.WriteLine(Add(5, 9));
+        Console.WriteLine(Add(5.5, 10));
+        Console.WriteLine(Add(4, -15));
+
+        var list = new GenericList<int>();
+        list.Add(1);
+        list.Add(2);
+        list.Add(3);
+        list.Add(4);
+        list.Remove(4);
+        var count = list.Count;
+
+        Console.WriteLine(count);
         
-        foreach (var payItem in employee)
-            Console.WriteLine($"{payItem.Name} = {payItem.Value}");
     }
 
-   
-}
-
-public class Employee
-{
-    private readonly List<PayItem> _payItems = new();
-
-    public string Name { get; set; }
-
-    public void AddPayItem(string name , int value)
+    // لكي يقبل T  بالارقام نعمل where T : INumber<T>
+    public static T Add<T>(T num1, T num2) where T : INumber<T>
     {
-        if (string.IsNullOrEmpty(name)) 
-            throw new ArgumentNullException("name");
-        _payItems.Add(new PayItem {  Name = name, Value = value });
+        return num1 + num2;
     }
+    public static int Add(int num1, int num2) => num2 + num1;
+    public static double Add(double num1, double num2) => num1 + num2;
+    public static decimal Add(decimal num1, decimal num2) => num1 + num2;
 
-    public IEnumerator<PayItem> GetEnumerator()
+
+    // <T> علي الكلاس نكتب اي رمز ولما ناخذ انستانس منه نعمل نوع الداتا تايب
+   public class GenericList<T>
     {
-        return _payItems.GetEnumerator();
+        private readonly List<T> _items = new();
+
+        public void Add(T item) { _items.Add(item);}
+        public void Remove(T item) { _items.Remove(item);}
+
+        public int Count => _items.Count;
+
     }
 }
 
-public class PayItem
-{
-    public string Name { set; get; }
-    public int Value { set; get; }
-}
+
 
 
