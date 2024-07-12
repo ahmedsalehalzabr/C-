@@ -1,47 +1,45 @@
-﻿// Multithreading
-// thread بياخذ دلقيت وهي الخذ برميتر واحد نوعة ابجكت او ماتاخذ ولا حاجه
-// الثرتز لا تتنفذ مع بعض ولكن عملية السوتشنك تسبب الدتداخل
+﻿//Task-Based Asynchronous Pattern (TAP)
+// sonchronous معناها بلوكنق 
+// ينفذ الصدر الاولاني ويحصل بلوك اي يستنى الصدر الاول لما يخلص وينتقل للصدر الي بهده
+
+// Asonchronous نن بلوكنق
+// ينفض الصدر الاول وينفذ الصدر الثاني وميستناش تنفيذه يتفذ براحته ينتقل ينفذ الصدر الذي بعدة
+
+//task ابريشن بتنفذ ابريشن اسنكرونس
+//فايدته ان في حاجه شغاله في الباكقراوند وانت مش شاعل نفسك بيها ووقت ماتخلص تخلص
+
+// await استنا التسك لما يخلص
+
+// async ماترجعش حاجه زي الفويد اذا كانت async Task فقط اما اذا كانت async Task<int> ضروري ترجع
 public class Program 
 {
    
 
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
-        var th1 = new Thread(ProcessBatch1);
-        th1.Priority = ThreadPriority.Highest;
-        var th2 = new Thread(ProcessBatch2);
-        th2.Priority = ThreadPriority.Lowest;
-        
-        th1.Start();
-        th2.Start();
+        var cts = new CancellationTokenSource();
+        var task1 =  ProcessBatch1(cts.Token);
+        var task2 = ProcessBatch2(cts.Token);
+        // هذه معناها انتظر كل التاسكات تخلصت ثم نفذ الي بعدهم
+       await Task.WhenAll(task1, task2);
 
-
-
-        //List<Employee> employees = new();
-        //for (var i = 0; i < 10; i++)
-        //{
-        //    employees.Add(new Employee
-        //    {
-        //        Name = $"Employee {i}",
-        //        BasicSalary = Random.Shared.Next(1000, 5001),
-        //        Deduction = Random.Shared.Next(0, 501),
-        //        Bonus = Random.Shared.Next(0, 1001)
-        //    });
-        //}
-        //var calculator = new SalaryCalculate();
-        //calculator.EmployeeSalaryCalculated += LogEmployeeSalary; // مالتي كاست دبقت
-        //calculator.EmployeeSalaryCalculated += (employees, salary) => Console.WriteLine($"Payslip`{employees.Name}`");
-
-        //calculator.CalculatwSalaries(employees, e => e.BasicSalary >= 2000);
+        Console.WriteLine("Please enter yor name");
+        var name =Console.ReadLine();
+        Console.WriteLine($"Your name is {name}");
+        Console.ReadKey();
 
     }
 
     private static object _lock = new();
-    private static void ProcessBatch1()
+    private static async Task ProcessBatch1(CancellationToken cancellationToken)
     {
-        for(var i = 0; i <= 100; i++)
+       
+        for(var i = 1; i <= 100; i++)
         {
+            if(cancellationToken.IsCancellationRequested)
+                return;
             // lock عملها تحط قفل على الكود الي داخلها
+            await Task.Delay(500);
 
             lock (_lock)
             {
@@ -51,59 +49,28 @@ public class Program
 
             }
         }
+        return;
     }
-    private static void ProcessBatch2()
+    private static async Task ProcessBatch2(CancellationToken cancellationToken)
     {
+
         for (var i = 101; i <= 200; i++)
         {
+            if (cancellationToken.IsCancellationRequested)
+                return;
+            // lock عملها تحط قفل على الكود الي داخلها
+            await Task.Delay(500);
             lock (_lock)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(i);
                 Console.ForegroundColor = ConsoleColor.White;
 
             }
         }
+        return;
     }
 
-    private static void LogEmployeeSalary(Employee employee, int salary)
-    {
-    Console.WriteLine($"Salary for employee `{employee.Name}` = {salary}");
-    }
-}
-
-
-public class SalaryCalculate // اسمه بابلشر يعني الناشر
-{
-    public delegate bool ShoudCalculate(Employee employee);
-
-    // الايفنت مع الدلقيت تبعه
-    public event EmployeeSalaryCalculatedEventHandler EmployeeSalaryCalculated; 
-    public delegate void EmployeeSalaryCalculatedEventHandler(Employee employee, int salary);
-    public void CalculatwSalaries(List<Employee> employees, ShoudCalculate predicate) // => الدلقيت الي ترجع بولين تسمى بريدكت
-    {
-        foreach (var employee in employees)
-        {
-            if (predicate(employee)) // => = true
-            {
-                var salary = employee.BasicSalary + employee.Bonus - employee.Deduction;
-                //if(EmployeeSalaryCalculated is not null)
-                //{
-                //    EmployeeSalaryCalculated(employee, salary); // اسم الايفنت مع البرميتر تبعه
-
-                //}
-
-                EmployeeSalaryCalculated?.Invoke(employee, salary); // هذه الطريقه نفس عمل الي فوقها
-            }
-        }
-    }
-}
-
-public class Employee
-{
-    public string Name { get; set; }
-    public int BasicSalary { get; set; }
-    public int Deduction { get; set; }
-    public int Bonus { get; set; }
 
 }
+
